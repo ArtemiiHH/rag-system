@@ -2,9 +2,14 @@
 
 # Break down the structure into five steps:
 
+from pathlib import Path
+from google import genai
+
 # 1. Document loading
 # Read raw files from disk and turn them into plain Python strings. This is the entry point — everything downstream depends on clean text here.
-
+practice_text = open("practice_text_rag.txt", "r")
+print(practice_text.read())
+practice_text.close()
 
 # 2. Chunking
 # Split the loaded text into smaller, manageable pieces for processing. LLMs have context limits, and small chunks make retrieval precise — you retrieve only the relevant paragraph, not the whole book.
