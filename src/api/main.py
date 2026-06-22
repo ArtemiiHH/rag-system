@@ -4,6 +4,8 @@
 
 from pathlib import Path
 from google import genai
+from sentence_transformers import SentenceTransformer
+import numpy as np
 
 # 1. Document loading
 # Read raw files from disk and turn them into plain Python strings. This is the entry point — everything downstream depends on clean text here.
@@ -29,8 +31,29 @@ def chunk_text(text: str, size: int = 500):
 
 chunks = chunk_text(practice_text)
 
+
 # 3. Embedding
 # Convert the text chunks into numerical vectors that can be used for similarity comparisons. (Semantic search) This is crucial for the retrieval step, as it allows you to find the most relevant chunks based on the user's query.
+
+# Method 1
+# model = SentenceTransformer("all-MiniLM-L6-v2")
+# embeddings = model.encode(chunks)
+
+# Method 2
+# Load a small, fast model (free, runs locally)
+model = SentenceTransformer("all-MiniLM-L6-v2")
+# Embed all your chunks at once
+embeddings = model.encode(chunks, show_progress_bar=True)
+print(embeddings.shape)
+
+
+# To see similarity between two chunks manually:
+def cosine_sim(a, b):
+    return np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b))
+
+
+sim = cosine_sim(embeddings[0], embeddings[1])
+print(f"Similarity: {sim: 3f}")
 
 
 # 4. Vector Store & Retrieval
