@@ -1,0 +1,25 @@
+Introduction to AI Engineering
+
+AI Engineering is the practice of building applications powered by artificial intelligence models.
+It combines software engineering with machine learning concepts.
+
+Key Concepts
+
+Large Language Models (LLMs) are neural networks trained on vast amounts of text data.
+They can understand and generate human-like text.
+Popular LLMs include GPT-4, Claude, and Llama.
+
+Retrieval-Augmented Generation (RAG) is a technique that enhances LLM responses with external knowledge.
+It works in three steps: indexing documents, retrieving relevant chunks, and generating answers.
+RAG helps reduce hallucinations and keeps responses grounded in real data.
+
+Python Tools for AI Engineering
+
+LangChain is a popular framework for building LLM-powered applications.
+FAISS and Chroma are commonly used vector databases for storing embeddings.
+The OpenAI and Anthropic Python SDKs make it easy to call AI models from code.
+
+Getting Started
+
+A simple RAG pipeline has four components: a document loader, a text splitter, an embedding model, and a retriever.
+Start small, test with simple documents, and scale up gradually.

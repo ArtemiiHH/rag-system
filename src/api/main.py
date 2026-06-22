@@ -1,4 +1,4 @@
-# RAG System (Retrieval-Augmented Generation
+# RAG System (Retrieval-Augmented Generation)
 
 # Break down the structure into five steps:
 
