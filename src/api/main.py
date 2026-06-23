@@ -74,3 +74,23 @@ def retrieve(query: str, chunks: list, embeddings: np.ndarray, top_k: int = 3):
 # 5. Generation - Question Answering
 # Use the retrieved chunks to generate a response to the user's query. The LLM can now answer questions based on the context provided by the retrieved documents.
 client = genai.Client()
+
+
+def answer(query: str, context_chunks: list) -> str:
+    context = "\n\n".join(context_chunks)
+    prompt = f"""Answer the question using only the context below.
+If the answer isn't in the context, say "I don't know."
+    Context:
+    {context}
+
+    Questions: {query}
+"""
+    response = client.models.generate_content(model="gemini-2.0-flash", contents=prompt)
+    return response.text
+
+
+# Put it all together
+query = "What is machine learning?"
+relevant_chunks = retrieve(query, chunks, embeddings)
+answer_text = answer(query, relevant_chunks)
+print(answer_text)
