@@ -87,12 +87,14 @@ If the answer isn't in the context, say "I don't know."
 
     Questions: {query}
 """
-    response = client.models.generate_content(model="gemini-2.0-flash", contents=prompt)
+    response = client.models.generate_content(
+        model="gemini-1.5-flash-8b", contents=prompt
+    )
     return response.text
 
 
 # Put it all together
-query = "What is machine learning?"
+query = "What is AI Engineering?"
 relevant_chunks = retrieve(query, chunks, embeddings)
 answer_text = answer(query, relevant_chunks)
 print(answer_text)
