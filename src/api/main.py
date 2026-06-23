@@ -3,7 +3,11 @@
 # Break down the structure into five steps:
 from google import genai
 from sentence_transformers import SentenceTransformer
+from dotenv import load_dotenv
 import numpy as np
+from pathlib import Path
+
+load_dotenv()
 
 # 1. Document loading
 # Read raw files from disk and turn them into plain Python strings. This is the entry point — everything downstream depends on clean text here.
@@ -14,8 +18,6 @@ import numpy as np
 # practice_text.close()
 
 # Method 2
-from pathlib import Path
-
 practice_text = Path("practice_text_rag.txt").read_text()
 print(practice_text)
 
@@ -77,6 +79,9 @@ def retrieve(query: str, chunks: list, embeddings: np.ndarray, top_k: int = 3):
 # Use the retrieved chunks to generate a response to the user's query. The LLM can now answer questions based on the context provided by the retrieved documents.
 client = genai.Client()
 
+for genai_model in client.models.list():
+    print(genai_model.name)
+
 
 def answer(query: str, context_chunks: list) -> str:
     context = "\n\n".join(context_chunks)
@@ -88,7 +93,7 @@ If the answer isn't in the context, say "I don't know."
     Questions: {query}
 """
     response = client.models.generate_content(
-        model="gemini-1.5-flash-8b", contents=prompt
+        model="gemini-2.0-flash-lite", contents=prompt
     )
     return response.text
 
