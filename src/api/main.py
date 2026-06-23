@@ -24,9 +24,9 @@ print(practice_text)
 # Split the loaded text into smaller, manageable pieces for processing. LLMs have context limits, and small chunks make retrieval precise — you retrieve only the relevant paragraph, not the whole book.
 def chunk_text(text: str, size: int = 500):
     chunks = []
-    for i in range(0, len(practice_text), size):
-        chunks.append(text[i : i + 500])
-        return chunks
+    for i in range(0, len(text), size):
+        chunks.append(text[i : i + size])
+    return chunks
 
 
 chunks = chunk_text(practice_text)
@@ -58,7 +58,19 @@ print(f"Similarity: {sim: 3f}")
 
 # 4. Vector Store & Retrieval
 # Store the embedded vectors in a vector database and retrieve the most similar ones based on the user's query.
+def retrieve(query: str, chunks: list, embeddings: np.ndarray, top_k: int = 3):
+    # Embed the query using the same model
+    query_embedding = model.encode([query])[0]
+
+    # Score every chunk against the query
+    scores = [cosine_sim(query_embedding, emb) for emb in embeddings]
+
+    # Sort by score descending, take top_k
+    top_indices = np.argsort(scores)[::-1][:top_k]
+
+    return [chunks[i] for i in top_indices]
 
 
 # 5. Generation - Question Answering
 # Use the retrieved chunks to generate a response to the user's query. The LLM can now answer questions based on the context provided by the retrieved documents.
+client = genai.Client()
