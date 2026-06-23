@@ -1,8 +1,6 @@
 # RAG System (Retrieval-Augmented Generation)
 
 # Break down the structure into five steps:
-
-from pathlib import Path
 from google import genai
 from sentence_transformers import SentenceTransformer
 import numpy as np
@@ -16,6 +14,8 @@ import numpy as np
 # practice_text.close()
 
 # Method 2
+from pathlib import Path
+
 practice_text = Path("practice_text_rag.txt").read_text()
 print(practice_text)
 
@@ -26,6 +26,7 @@ def chunk_text(text: str, size: int = 500):
     chunks = []
     for i in range(0, len(text), size):
         chunks.append(text[i : i + size])
+
     return chunks
 
 
@@ -44,6 +45,7 @@ chunks = chunk_text(practice_text)
 model = SentenceTransformer("all-MiniLM-L6-v2")
 # Embed all your chunks at once
 embeddings = model.encode(chunks, show_progress_bar=True)
+
 print(embeddings.shape)
 
 
